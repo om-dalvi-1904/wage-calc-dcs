@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wage Calculator</title>
+    <link rel="stylesheet" href="wages.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Wage Calculator</h1>
+        <div class="sections">
+            <!-- Work Section -->
+            <div class="form-section">
+                <form id="billingForm">
+                    <label for="projectName">Project Name</label>
+                    <input type="text" id="projectName" placeholder="Enter Project Name" required>
+
+                    <label for="work">Work</label>
+                    <select id="work" required>
+                        <option value="plastering" data-rate="15" data-target="150" data-billing="2250">Plastering</option>
+                        <option value="cement" data-rate="20" data-target="180" data-billing="3600">Cement Concreting</option>
+                        <option value="chemical_coating" data-rate="18" data-target="180" data-billing="3600">Chemical Coating</option>
+                    </select>
+
+                    <label for="ratePerSqFt">Rate per Sq.Ft. (Rs.)</label>
+                    <input type="number" id="ratePerSqFt" class="readonly-field" readonly>
+
+                    <label for="targetArea">Target Area (Sq.Ft.)</label>
+                    <input type="number" id="targetArea" class="readonly-field" readonly>
+
+                    <label for="expectedBilling">Expected Billing (Rs.)</label>
+                    <input type="number" id="expectedBilling" class="readonly-field" readonly>
+
+                    <div id="expectedBillingAmount" class="expected-billing-amount"></div>
+                </form>
+            </div>
+
+            <!-- Employee Section -->
+            <div class="form-section">
+                <form id="expenseForm">
+                    <!-- Mason -->
+                    <div class="employee-field">
+                        <label>Mason</label>
+                        <div class="checkbox-group">
+                            <label><input type="radio" id="dcsMason" name="masonType" value="dcs" checked>DCS</label>
+                            <label><input type="radio" id="contractMason" name="masonType" value="contract">Contract</label>
+                        </div>
+                        <input type="number" id="numMason" placeholder="No. of Masons" required>
+                    </div>
+
+                    <!-- Helper -->
+                    <div class="employee-field">
+                        <label>Helper</label>
+                        <div class="checkbox-group">
+                            <label><input type="radio" id="dcsHelper" name="helperType" value="dcs" checked>DCS</label>
+                            <label><input type="radio" id="contractHelper" name="helperType" value="contract">Contract</label>
+                        </div>
+                        <input type="number" id="numHelper" placeholder="No. of Helpers" required>
+                    </div>
+
+                    <!-- Carpenter -->
+                    <div class="employee-field">
+                        <label>Carpenter</label>
+                        <div class="checkbox-group">
+                            <label><input type="radio" id="dcsCarpenter" name="carpenterType" value="dcs" checked>DCS</label>
+                            <label><input type="radio" id="contractCarpenter" name="carpenterType" value="contract">Contract</label>
+                        </div>
+                        <input type="number" id="numCarpenter" placeholder="No. of Carpenters" required>
+                    </div>
+
+                    <!-- Labour -->
+                    <div class="employee-field">
+                        <label>Labour</label>
+                        <div class="checkbox-group">
+                            <label><input type="radio" id="dcsLabour" name="labourType" value="dcs" checked>DCS</label>
+                            <label><input type="radio" id="contractLabour" name="labourType" value="contract">Contract</label>
+                        </div>
+                        <input type="number" id="numLabour" placeholder="No. of Labourers" required>
+                    </div>
+
+                    <div class="total-expenses">
+                        <label>Total Employee Expenses</label>
+                        <span id="totalExpenses" class="expense-total">1600</span>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Profit Section -->
+        <div class="profit" id="profitDisplay">Total Estimated Profit: <span class="amount">Rs. 650</span></div>
+    </div>
+
+    <script src="wages.js"></script>
+</body>
+</html>

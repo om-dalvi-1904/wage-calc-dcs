@@ -1,0 +1,161 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #eef2f7;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 80%;
+}
+
+.sections {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-section {
+    width: 48%;
+}
+
+h1 {
+    font-size: 2rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+label {
+    font-weight: bold;
+    color: #444;
+}
+
+select, input {
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+}
+
+.readonly-field {
+    background-color: #f3f4f6;
+    color: #555;
+    pointer-events: none;
+}
+
+.result {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+
+.profit {
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.profit .amount {
+    font-weight: bold;
+}
+
+.profit.positive .amount {
+    color: green;
+}
+
+.profit.negative .amount {
+    color: red;
+}
+
+.expense-total {
+    color: #0056b3;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.checkbox-group {
+    display: flex;
+    gap: 15px;
+}
+
+.employee-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.employee-field, .checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.total-expenses {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button {
+    padding: 12px;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Added styles for the Expected Billing Amount text */
+#expectedBillingAmount {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Ensuring the radio buttons are in a horizontal line */
+.checkbox-group label {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+/* Matching font size and style for Expected Billing and Total Employee Expenses */
+#expectedBillingAmount, .expense-total {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Improved layout for total employee expenses section */
+.total-expenses {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

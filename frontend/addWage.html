@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wage Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef2f7;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 80%;
+        }
+
+        .sections {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-section {
+            width: 48%;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #444;
+        }
+
+        select, input {
+            padding: 12px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: 100%;
+        }
+
+        .readonly-field {
+            background-color: #f3f4f6;
+            color: #555;
+            pointer-events: none;
+        }
+
+        .result {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        .profit {
+            font-weight: bold;
+            font-size: 1.5rem;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .profit .amount {
+            font-weight: bold;
+        }
+
+        .profit.positive .amount {
+            color: green;
+        }
+
+        .profit.negative .amount {
+            color: red;
+        }
+
+        .expense-total {
+            color: #0056b3;
+            font-weight: bold;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .employee-field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        button {
+            padding: 12px;
+            font-size: 1rem;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Wage Calculator</h1>
+        <div class="sections">
+            <!-- Work Section -->
+            <div class="form-section">
+                <form id="billingForm">
+                    <label for="work">Work</label>
+                    <select id="work" required>
+                        <option value="plastering" data-rate="15" data-target="150" data-billing="2250">Plastering</option>
+                        <option value="cement" data-rate="20" data-target="180" data-billing="3600">Cement Concreting</option>
+                    </select>
+
+                    <label for="ratePerSqFt">Rate per Sq.Ft. (Rs.)</label>
+                    <input type="number" id="ratePerSqFt" class="readonly-field" readonly>
+
+                    <label for="targetArea">Target Area (Sq.Ft.)</label>
+                    <input type="number" id="targetArea" class="readonly-field" readonly>
+
+                    <label for="expectedBilling">Expected Billing (Rs.)</label>
+                    <input type="number" id="expectedBilling" class="readonly-field" readonly>
+
+                    <label>Total Billing</label>
+                    <div class="result" id="totalBilling">2250</div>
+                </form>
+            </div>
+
+            <!-- Employee Section -->
+            <div class="form-section">
+                <form id="expenseForm">
+                    <!-- Mason -->
+                    <div class="employee-field">
+                        <label>Mason</label>
+                        <div class="checkbox-group">
+                            <label><input type="radio" id="dcsMason" name="masonType" value="dcs" checked>DCS (Rs. 900/day)</label>
+                            <label><input type="radio" id="contractMason" name="masonType" value="contract">Contract</label>
+                        </div>
+                        <input type="number" id="numMason" placeholder="No. of Masons" required>
+                    </div>
+
+                    <!-- Helper -->
+                    <div class="employee-field">
+                        <label>Helper</label>
+                        <div class="checkbox-group">
+                            <label><input type="radio" id="dcsHelper" name="helperType" value="dcs" checked>DCS (Rs. 700/day)</label>
+                            <label><input type="radio" id="contractHelper" name="helperType" value="contract">Contract</label>
+                        </div>
+                        <input type="number" id="numHelper" placeholder="No. of Helpers" required>
+                    </div>
+
+                    <label>Total Employee Expenses</label>
+                    <div class="expense-total" id="totalExpenses">1600</div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Profit Section -->
+        <div class="profit" id="profitDisplay">Total Estimated Profit: <span class="amount">Rs. 650</span></div>
+    </div>
+
+    <script>
+        const workDropdown = document.getElementById('work');
+        const ratePerSqFtInput = document.getElementById('ratePerSqFt');
+        const targetAreaInput = document.getElementById('targetArea');
+        const expectedBillingInput = document.getElementById('expectedBilling');
+
+        const numMasonInput = document.getElementById('numMason');
+        const numHelperInput = document.getElementById('numHelper');
+        const totalExpensesDisplay = document.getElementById('totalExpenses');
+
+        const profitDisplay = document.getElementById('profitDisplay');
+
+        workDropdown.addEventListener('change', (e) => {
+            const selectedOption = e.target.options[e.target.selectedIndex];
+            ratePerSqFtInput.value = selectedOption.getAttribute('data-rate');
+            targetAreaInput.value = selectedOption.getAttribute('data-target');
+            expectedBillingInput.value = selectedOption.getAttribute('data-billing');
+            calculateProfit();
+        });
+
+        function calculateExpenses() {
+            const numMasons = parseInt(numMasonInput.value) || 0;
+            const numHelpers = parseInt(numHelperInput.value) || 0;
+
+            const masonRate = document.querySelector('input[name="masonType"]:checked').value === 'dcs' ? 900 : 0;
+            const helperRate = document.querySelector('input[name="helperType"]:checked').value === 'dcs' ? 700 : 0;
+
+            const totalExpenses = (numMasons * masonRate) + (numHelpers * helperRate);
+            totalExpensesDisplay.textContent = totalExpenses;
+            return totalExpenses;
+        }
+
+        function calculateProfit() {
+            const totalBilling = parseInt(expectedBillingInput.value) || 0;
+            const totalExpenses = calculateExpenses();
+            const profit = totalBilling - totalExpenses;
+
+            const profitSpan = profitDisplay.querySelector('.amount');
+            profitSpan.textContent = `Rs. ${profit}`;
+            profitSpan.style.color = profit >= 0 ? 'green' : 'red';
+        }
+
+        numMasonInput.addEventListener('input', calculateProfit);
+        numHelperInput.addEventListener('input', calculateProfit);
+        document.querySelectorAll('input[name="masonType"]').forEach(radio => radio.addEventListener('change', calculateProfit));
+        document.querySelectorAll('input[name="helperType"]').forEach(radio => radio.addEventListener('change', calculateProfit));
+
+        // Initialize the form
+        workDropdown.dispatchEvent(new Event('change'));
+    </script>
+</body>
+</html>

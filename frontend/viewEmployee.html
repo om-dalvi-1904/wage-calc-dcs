@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .loading {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Employee List</h2>
+        <div id="loading" class="loading">Loading employees...</div>
+        <div id="error" class="error"></div>
+        <table id="employeeTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Designation</th>
+                </tr>
+            </thead>
+            <tbody id="employeeTableBody">
+                <!-- Dynamic content will be added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const employeeTable = document.getElementById('employeeTable');
+        const employeeTableBody = document.getElementById('employeeTableBody');
+        const loadingDiv = document.getElementById('loading');
+        const errorDiv = document.getElementById('error');
+
+        async function fetchEmployees() {
+            try {
+                const response = await fetch('http://localhost:3000/api/v1/employee/get');
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch employees');
+                }
+
+                const employees = await response.json();
+
+                if (employees.length === 0) {
+                    loadingDiv.textContent = 'No employees found.';
+                    return;
+                }
+
+                loadingDiv.style.display = 'none';
+                employeeTable.style.display = 'table';
+
+                employees.forEach(employee => {
+                    const row = document.createElement('tr');
+
+                    const nameCell = document.createElement('td');
+                    nameCell.textContent = employee.name;
+                    row.appendChild(nameCell);
+
+                    const designationCell = document.createElement('td');
+                    designationCell.textContent = employee.designation;
+                    row.appendChild(designationCell);
+
+                    employeeTableBody.appendChild(row);
+                });
+            } catch (error) {
+                loadingDiv.style.display = 'none';
+                errorDiv.textContent = error.message;
+            }
+        }
+
+        window.onload = fetchEmployees;
+    </script>
+</body>
+</html>
