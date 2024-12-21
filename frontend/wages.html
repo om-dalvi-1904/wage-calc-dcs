@@ -42,53 +42,42 @@
                     <!-- Mason -->
                     <div class="employee-field">
                         <label>Mason</label>
-                        <div class="checkbox-group">
-                            <label><input type="radio" id="dcsMason" name="masonType" value="dcs" checked>DCS</label>
-                            <label><input type="radio" id="contractMason" name="masonType" value="contract">Contract</label>
-                        </div>
-                        <input type="number" id="numMason" placeholder="No. of Masons" required>
+                        <input type="number" id="dcsMason" placeholder="No. of DCS Masons" required>
+                        <input type="number" id="contractMason" placeholder="No. of Contract Masons" required>
                     </div>
 
                     <!-- Helper -->
                     <div class="employee-field">
                         <label>Helper</label>
-                        <div class="checkbox-group">
-                            <label><input type="radio" id="dcsHelper" name="helperType" value="dcs" checked>DCS</label>
-                            <label><input type="radio" id="contractHelper" name="helperType" value="contract">Contract</label>
-                        </div>
-                        <input type="number" id="numHelper" placeholder="No. of Helpers" required>
+                        <input type="number" id="dcsHelper" placeholder="No. of DCS Helpers" required>
+                        <input type="number" id="contractHelper" placeholder="No. of Contract Helpers" required>
                     </div>
 
                     <!-- Carpenter -->
                     <div class="employee-field">
                         <label>Carpenter</label>
-                        <div class="checkbox-group">
-                            <label><input type="radio" id="dcsCarpenter" name="carpenterType" value="dcs" checked>DCS</label>
-                            <label><input type="radio" id="contractCarpenter" name="carpenterType" value="contract">Contract</label>
-                        </div>
-                        <input type="number" id="numCarpenter" placeholder="No. of Carpenters" required>
+                        <input type="number" id="dcsCarpenter" placeholder="No. of DCS Carpenters" required>
+                        <input type="number" id="contractCarpenter" placeholder="No. Contract of Carpenters" required>
                     </div>
 
                     <!-- Labour -->
                     <div class="employee-field">
                         <label>Labour</label>
-                        <div class="checkbox-group">
-                            <label><input type="radio" id="dcsLabour" name="labourType" value="dcs" checked>DCS</label>
-                            <label><input type="radio" id="contractLabour" name="labourType" value="contract">Contract</label>
-                        </div>
-                        <input type="number" id="numLabour" placeholder="No. of Labourers" required>
+                        <input type="number" id="dcsLabour" placeholder="No. of Labourers" required>
+                        <input type="number" id="contractLabour" placeholder="No. of Labourers" required>
                     </div>
 
                     <div class="total-expenses">
                         <label>Total Employee Expenses</label>
-                        <span id="totalExpenses" class="expense-total">1600</span>
+                        <span id="totalExpenses" class="expense-total"></span>
                     </div>
                 </form>
             </div>
         </div>
 
         <!-- Profit Section -->
-        <div class="profit" id="profitDisplay">Total Estimated Profit: <span class="amount">Rs. 650</span></div>
+        <div class="profit" id="profitDisplay">Total Estimated Profit: <span class="amount">Rs. </span></div>
+        <button type="button" class="btn" id="calculateBtn">Submit</button>
     </div>
 
     <script src="wages.js"></script>

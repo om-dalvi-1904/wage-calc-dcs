@@ -4,25 +4,17 @@ const targetAreaInput = document.getElementById('targetArea');
 const expectedBillingInput = document.getElementById('expectedBilling');
 const expectedBillingAmountDisplay = document.getElementById('expectedBillingAmount');
 
-const numMasonInput = document.getElementById('numMason');
-const numHelperInput = document.getElementById('numHelper');
-const numCarpenterInput = document.getElementById('numCarpenter');
-const numLabourInput = document.getElementById('numLabour');
+const dcsMasonInput = document.getElementById('dcsMason');
+const contractMasonInput = document.getElementById('contractMason');
+const dcsHelperInput = document.getElementById('dcsHelper');
+const contractHelperInput = document.getElementById('contractHelper');
+const dcsCarpenterInput = document.getElementById('dcsCarpenter');
+const contractCarpenterInput = document.getElementById('contractCarpenter');
+const dcsLabourInput = document.getElementById('dcsLabour');
+const contractLabourInput = document.getElementById('contractLabour');
+
 const totalExpensesDisplay = document.getElementById('totalExpenses');
-
 const profitDisplay = document.getElementById('profitDisplay');
-
-// Define rates for employees
-const rates = {
-    masonDcs: 900,
-    masonContract: 850,
-    helperDcs: 700,
-    helperContract: 600,
-    carpenterDcs: 800,
-    carpenterContract: 680,
-    labourDcs: 600,
-    labourContract: 570
-};
 
 // Event listener for work dropdown change
 workDropdown.addEventListener('change', (e) => {
@@ -39,18 +31,21 @@ workDropdown.addEventListener('change', (e) => {
 
 // Function to calculate total expenses
 function calculateExpenses() {
-    const numMasons = parseInt(numMasonInput.value) || 0;
-    const numHelpers = parseInt(numHelperInput.value) || 0;
-    const numCarpenters = parseInt(numCarpenterInput.value) || 0;
-    const numLabours = parseInt(numLabourInput.value) || 0;
+    const dcsMason = parseInt(dcsMasonInput.value) || 0;
+    const contractMason = parseInt(contractMasonInput.value) || 0;
+    const dcsHelper = parseInt(dcsHelperInput.value) || 0;
+    const contractHelper = parseInt(contractHelperInput.value) || 0;
+    const dcsCarpenter = parseInt(dcsCarpenterInput.value) || 0;
+    const contractCarpenter = parseInt(contractCarpenterInput.value) || 0;
+    const dcsLabour = parseInt(dcsLabourInput.value) || 0;
+    const contractLabour = parseInt(contractLabourInput.value) || 0;
 
-    const masonRate = document.querySelector('input[name="masonType"]:checked').value === 'dcs' ? rates.masonDcs : rates.masonContract;
-    const helperRate = document.querySelector('input[name="helperType"]:checked').value === 'dcs' ? rates.helperDcs : rates.helperContract;
-    const carpenterRate = document.querySelector('input[name="carpenterType"]:checked').value === 'dcs' ? rates.carpenterDcs : rates.carpenterContract;
-    const labourRate = document.querySelector('input[name="labourType"]:checked').value === 'dcs' ? rates.labourDcs : rates.labourContract;
+    const totalExpenses = (dcsMason * 900 + contractMason * 750) +
+        (dcsCarpenter * 600 + contractCarpenter * 550) +
+        (dcsHelper * 700 + contractHelper * 700) +
+        (dcsLabour * 800 + contractLabour * 650);
 
-    const totalExpenses = (numMasons * masonRate) + (numHelpers * helperRate) + (numCarpenters * carpenterRate) + (numLabours * labourRate);
-    totalExpensesDisplay.textContent = totalExpenses;
+    totalExpensesDisplay.textContent = `Rs. ${totalExpenses}`;
     return totalExpenses;
 }
 
@@ -66,14 +61,22 @@ function calculateProfit() {
 }
 
 // Event listeners for employee inputs
-numMasonInput.addEventListener('input', calculateProfit);
-numHelperInput.addEventListener('input', calculateProfit);
-numCarpenterInput.addEventListener('input', calculateProfit);
-numLabourInput.addEventListener('input', calculateProfit);
-document.querySelectorAll('input[name="masonType"]').forEach(radio => radio.addEventListener('change', calculateProfit));
-document.querySelectorAll('input[name="helperType"]').forEach(radio => radio.addEventListener('change', calculateProfit));
-document.querySelectorAll('input[name="carpenterType"]').forEach(radio => radio.addEventListener('change', calculateProfit));
-document.querySelectorAll('input[name="labourType"]').forEach(radio => radio.addEventListener('change', calculateProfit));
+const employeeInputs = document.querySelectorAll('#expenseForm input');
+employeeInputs.forEach(input => input.addEventListener('input', calculateProfit));
 
 // Initialize the form
 workDropdown.dispatchEvent(new Event('change'));
+
+let submit = document.getElementById("calculateBtn")
+
+submit.addEventListener('click', ()=>{
+    let project_name = document.getElementById("projectName").value
+    let work = document.getElementById("work").value
+    let rateperSq = document.getElementById("ratePerSqFt").value
+    let targetarea = document.getElementById("targetArea").value
+    let expectedbilling = document.getElementById("expectedBilling").value
+    let totalexpense = document.getElementById("totalExpenses").value
+    let estimatedprofit = document.getElementById("profitDisplay").value
+
+    console.log([project_name, work, rateperSq, targetarea, expectedbilling, totalexpense, estimatedprofit , dcsMason.value, contractMason.value, dcsHelper.value, contractHelper.value, dcsCarpenter.value, contractCarpenter.value, dcsLabour.value, contractLabour.value])
+})

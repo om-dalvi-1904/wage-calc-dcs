@@ -5,6 +5,7 @@ require("dotenv").config()
 const employeeRouter = require("./routes/employeeRoute")
 const projectRouter = require("./routes/projectRoute")
 const wageRouter = require("./routes/wageRoute")
+const addProjectRouter = require("./routes/addProject")
 
 let app = express()
 
@@ -33,6 +34,7 @@ mongoose
 app.use("/", employeeRouter)
 app.use("/", projectRouter)
 app.use("/", wageRouter)
+app.use("/", addProjectRouter)
 
 //? start the server
 let port = 3000

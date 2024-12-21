@@ -1,3 +1,4 @@
+/* General Styles */
 * {
     margin: 0;
     padding: 0;
@@ -64,12 +65,6 @@ select, input {
     pointer-events: none;
 }
 
-.result {
-    font-weight: bold;
-    font-size: 1.2rem;
-    margin-top: 10px;
-}
-
 .profit {
     font-weight: bold;
     font-size: 1.5rem;
@@ -81,81 +76,23 @@ select, input {
     font-weight: bold;
 }
 
-.profit.positive .amount {
-    color: green;
-}
-
-.profit.negative .amount {
-    color: red;
-}
-
 .expense-total {
     color: #0056b3;
     font-weight: bold;
     font-size: 1.5rem;
 }
 
-.checkbox-group {
-    display: flex;
-    gap: 15px;
-}
-
-.employee-field {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.employee-field, .checkbox-group {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.total-expenses {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-button {
-    padding: 12px;
-    font-size: 1rem;
+.btn {
+    padding: 10px;
     background-color: #007bff;
-    color: #fff;
+    color: white;
     border: none;
     border-radius: 6px;
+    font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    margin: 20px 0;
 }
 
-button:hover {
+.btn:hover {
     background-color: #0056b3;
-}
-
-/* Added styles for the Expected Billing Amount text */
-#expectedBillingAmount {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-/* Ensuring the radio buttons are in a horizontal line */
-.checkbox-group label {
-    display: inline-block;
-    margin-right: 15px;
-}
-
-/* Matching font size and style for Expected Billing and Total Employee Expenses */
-#expectedBillingAmount, .expense-total {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-/* Improved layout for total employee expenses section */
-.total-expenses {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
