@@ -1,6 +1,7 @@
 let express = require("express")
 let mongoose = require("mongoose")
 let cors = require("cors")
+require("dotenv").config()
 const employeeRouter = require("./routes/employeeRoute")
 const projectRouter = require("./routes/projectRoute")
 const wageRouter = require("./routes/wageRoute")
@@ -20,7 +21,7 @@ app.use(cors())
 
 //? connect to database
 mongoose
-    .connect("mongodb+srv://omdalvi1904:MjppXhuCEA8bEOGx@firstdb.ldmseda.mongodb.net/employee-calculator")
+    .connect(process.env.STRING)
     .then(()=>{
         console.log("Database connected successfully");
     })
