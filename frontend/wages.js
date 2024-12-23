@@ -13,6 +13,11 @@ const contractCarpenterInput = document.getElementById('contractCarpenter');
 const dcsLabourInput = document.getElementById('dcsLabour');
 const contractLabourInput = document.getElementById('contractLabour');
 
+const contractMasonRateInput = document.getElementById('contractMasonRate');
+const contractHelperRateInput = document.getElementById('contractHelperRate');
+const contractCarpenterRateInput = document.getElementById('contractCarpenterRate');
+const contractLabourRateInput = document.getElementById('contractLabourRate');
+
 const totalExpensesDisplay = document.getElementById('totalExpenses');
 const profitDisplay = document.getElementById('profitDisplay');
 
@@ -21,7 +26,7 @@ workDropdown.addEventListener('change', (e) => {
     const selectedOption = e.target.options[e.target.selectedIndex];
     ratePerSqFtInput.value = selectedOption.getAttribute('data-rate');
     targetAreaInput.value = selectedOption.getAttribute('data-target');
-    expectedBillingInput.value = selectedOption.getAttribute('data-billing');
+    expectedBillingInput.value = ratePerSqFtInput.value*targetAreaInput.value
 
     // Update the Expected Billing Amount display
     expectedBillingAmountDisplay.textContent = `Expected Billing: Rs. ${expectedBillingInput.value}`;
@@ -39,11 +44,27 @@ function calculateExpenses() {
     const contractCarpenter = parseInt(contractCarpenterInput.value) || 0;
     const dcsLabour = parseInt(dcsLabourInput.value) || 0;
     const contractLabour = parseInt(contractLabourInput.value) || 0;
+    const contractMasonRate = parseInt(contractMasonRateInput.value) || 0;
+    const contractHelperRate = parseInt(contractHelperRateInput.value) || 0;
+    const contractCarpenterRate = parseInt(contractCarpenterRateInput.value) || 0;
+    const contractLabourRate = parseInt(contractLabourRateInput.value) || 0;
 
-    const totalExpenses = (dcsMason * 900 + contractMason * 750) +
-        (dcsCarpenter * 600 + contractCarpenter * 550) +
-        (dcsHelper * 700 + contractHelper * 700) +
-        (dcsLabour * 800 + contractLabour * 650);
+    if(dcsMason < 0 || contractMason < 0 || dcsHelper < 0 || contractHelper < 0 || dcsCarpenter < 0 || contractCarpenter < 0 || dcsLabour < 0 || contractLabour < 0){
+        alert("Negative values not allowed")
+        dcsMasonInput.value = 0
+        contractMasonInput.value = 0
+        dcsHelperInput.value = 0
+        contractHelperInput.value = 0
+        dcsCarpenterInput.value = 0
+        contractCarpenterInput.value = 0
+        dcsLabourInput.value = 0
+        contractLabourInput.value = 0
+    }
+
+    const totalExpenses = (dcsMason * 900 + contractMason * contractMasonRate) +
+        (dcsCarpenter * 600 + contractCarpenter * contractCarpenterRate) +
+        (dcsHelper * 700 + contractHelper * contractHelperRate) +
+        (dcsLabour * 800 + contractLabour * contractLabourRate);
 
     totalExpensesDisplay.textContent = `Rs. ${totalExpenses}`;
     return totalExpenses;
@@ -74,9 +95,75 @@ submit.addEventListener('click', ()=>{
     let work = document.getElementById("work").value
     let rateperSq = document.getElementById("ratePerSqFt").value
     let targetarea = document.getElementById("targetArea").value
-    let expectedbilling = document.getElementById("expectedBilling").value
-    let totalexpense = document.getElementById("totalExpenses").value
-    let estimatedprofit = document.getElementById("profitDisplay").value
+    let expectedBilling = document.getElementById("expectedBilling").value
+    let employeeExpense = calculateExpenses()
 
-    console.log([project_name, work, rateperSq, targetarea, expectedbilling, totalexpense, estimatedprofit , dcsMason.value, contractMason.value, dcsHelper.value, contractHelper.value, dcsCarpenter.value, contractCarpenter.value, dcsLabour.value, contractLabour.value])
+    console.log({
+        //?work
+        "Project": project_name,
+        "Work": work,
+        "Rate Per Sq. Ft.": parseInt(rateperSq),
+        "Target Area": parseInt(targetarea),
+        //?mason
+        "DCS Mason": parseInt(dcsMasonInput.value) || 0,
+        "Contract Mason": parseInt(contractMasonInput.value) || 0,
+        "Contractor Mason Rate": parseInt(contractMasonRateInput.value) || 0,
+        //?helper
+        "DCS Helper": parseInt(dcsHelperInput.value) || 0,
+        "Contracr Helper": parseInt(contractHelperInput.value) || 0,
+        "Contractor Helper Rate": parseInt(contractHelperRateInput.value) || 0,
+        //?carpenter
+        "DCS Carpenter": parseInt(dcsCarpenterInput.value) || 0,
+        "Contract Carpenter": parseInt(contractCarpenterInput.value) || 0,
+        "Contractor Carpenter Rate": parseInt(contractCarpenterRateInput.value) || 0,
+        //?labour
+        "DCS Labour": parseInt(dcsLabourInput.value) || 0,
+        "Contract Labour": parseInt(contractLabourInput.value) || 0,
+        "Contractor Labour Rate": parseInt(contractLabourRateInput.value) || 0,
+        //?billing amounts
+        "Expected Billing": parseInt(expectedBilling) || 0,
+        "Employee Expenses": parseInt(employeeExpense) || 0,
+    })
+
+    let projectData = {
+        Project: project_name,
+        Work: work,
+        RatePerSqFt: parseInt(rateperSq),
+        TargetArea: parseInt(targetarea),
+        //?mason
+        DCS_Mason: parseInt(dcsMasonInput.value) || 0,
+        Contract_Mason: parseInt(contractMasonInput.value) || 0,
+        Contractor_Mason_Rate: parseInt(contractMasonRateInput.value) || 0,
+        //?helper
+        DCS_Helper: parseInt(dcsHelperInput.value) || 0,
+        Contracr_Helper: parseInt(contractHelperInput.value) || 0,
+        Contractor_Helper_Rate: parseInt(contractHelperRateInput.value) || 0,
+        //?carpenter
+        DCS_Carpenter: parseInt(dcsCarpenterInput.value) || 0,
+        Contract_Carpenter: parseInt(contractCarpenterInput.value) || 0,
+        Contractor_Carpenter_Rate: parseInt(contractCarpenterRateInput.value) || 0,
+        //?labour
+        DCS_Labour: parseInt(dcsLabourInput.value) || 0,
+        Contract_Labour: parseInt(contractLabourInput.value) || 0,
+        Contractor_Labour_Rate: parseInt(contractLabourRateInput.value) || 0,
+        //?billing amounts
+        Expected_Billing: parseInt(expectedBilling) || 0,
+        Employee_Expenses: parseInt(employeeExpense) || 0,
+    }
+
+    fetch("http://localhost:3000/api/v1/project-data/add",{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(projectData)
+    })
+    .then(response => response.json())
+    .then(data =>{
+        alert("Project data saved successfully.")
+        window.location.reload()
+    })
+    .catch(error => {
+        alert("Error saving the data.")
+    })
 })
